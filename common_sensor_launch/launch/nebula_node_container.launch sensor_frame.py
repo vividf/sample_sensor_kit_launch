@@ -126,59 +126,12 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
-    cropbox_parameters = create_parameter_dict("input_frame", "output_frame")
-    cropbox_parameters["negative"] = True
-
-    vehicle_info = get_vehicle_info(context)
-    cropbox_parameters["min_x"] = vehicle_info["min_longitudinal_offset"]
-    cropbox_parameters["max_x"] = vehicle_info["max_longitudinal_offset"]
-    cropbox_parameters["min_y"] = vehicle_info["min_lateral_offset"]
-    cropbox_parameters["max_y"] = vehicle_info["max_lateral_offset"]
-    cropbox_parameters["min_z"] = vehicle_info["min_height_offset"]
-    cropbox_parameters["max_z"] = vehicle_info["max_height_offset"]
-
-    nodes.append(
-        ComposableNode(
-            package="pointcloud_preprocessor",
-            plugin="pointcloud_preprocessor::CropBoxFilterComponent",
-            name="crop_box_filter_self",
-            remappings=[
-                ("input", "pointcloud_raw_ex"),
-                ("output", "self_cropped/pointcloud_ex"),
-            ],
-            parameters=[cropbox_parameters],
-            extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-        )
-    )
-
-    mirror_info = get_vehicle_mirror_info(context)
-    cropbox_parameters["min_x"] = mirror_info["min_longitudinal_offset"]
-    cropbox_parameters["max_x"] = mirror_info["max_longitudinal_offset"]
-    cropbox_parameters["min_y"] = mirror_info["min_lateral_offset"]
-    cropbox_parameters["max_y"] = mirror_info["max_lateral_offset"]
-    cropbox_parameters["min_z"] = mirror_info["min_height_offset"]
-    cropbox_parameters["max_z"] = mirror_info["max_height_offset"]
-
-    nodes.append(
-        ComposableNode(
-            package="pointcloud_preprocessor",
-            plugin="pointcloud_preprocessor::CropBoxFilterComponent",
-            name="crop_box_filter_mirror",
-            remappings=[
-                ("input", "self_cropped/pointcloud_ex"),
-                ("output", "mirror_cropped/pointcloud_ex"),
-            ],
-            parameters=[cropbox_parameters],
-            extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-        )
-    )
-
     nodes.append(
         ComposableNode(
             package="pointcloud_preprocessor",
             plugin="pointcloud_preprocessor::DistortionCorrectorComponent",
             name="distortion_corrector_node",
-            parameters=[{"update_azimuth_and_distance": True}],
+            parameters=[{"update_azimuth_and_distance": False}],
             remappings=[
                 ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
                 ("~/input/imu", "/sensing/imu/imu_data"),

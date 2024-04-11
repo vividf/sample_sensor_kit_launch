@@ -178,11 +178,11 @@ def launch_setup(context, *args, **kwargs):
             package="pointcloud_preprocessor",
             plugin="pointcloud_preprocessor::DistortionCorrectorComponent",
             name="distortion_corrector_node",
-            parameters=[{"update_azimuth_and_distance": True}],
+            parameters=[{"update_azimuth_and_distance": False}],
             remappings=[
                 ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
                 ("~/input/imu", "/sensing/imu/imu_data"),
-                ("~/input/pointcloud", "pointcloud_raw_ex"),
+                ("~/input/pointcloud", "mirror_cropped/pointcloud_ex"),
                 ("~/output/pointcloud", "rectified/pointcloud_ex"),
             ],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
