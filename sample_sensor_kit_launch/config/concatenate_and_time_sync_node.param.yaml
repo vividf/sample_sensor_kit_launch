@@ -5,6 +5,7 @@
     is_motion_compensated: true
     publish_synchronized_pointcloud: true
     keep_input_frame_in_synchronized_pointcloud: true
+    publish_previous_but_late_pointcloud: true
     synchronized_pointcloud_postfix: pointcloud
     input_twist_topic_type: twist
     input_topics: [
