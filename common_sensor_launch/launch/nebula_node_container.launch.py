@@ -303,6 +303,16 @@ def generate_launch_description():
     add_launch_arg(
         "vehicle_mirror_param_file", description="path to the file of vehicle mirror position yaml"
     )
+
+    add_launch_arg(
+        "distortion_correction_node_param_path",
+        os.path.join(
+            common_sensor_share_dir,
+            "config",
+            "distortion_corrector_node.param.yaml",
+        ),
+        description="path to parameter file of distortion correction node",
+    )
     add_launch_arg(
         "distortion_correction_node_param_path",
         os.path.join(
