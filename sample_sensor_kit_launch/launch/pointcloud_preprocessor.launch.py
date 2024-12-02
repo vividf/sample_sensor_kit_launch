@@ -65,7 +65,7 @@ def generate_launch_description():
     def add_launch_arg(name: str, default_value=None):
         launch_arguments.append(DeclareLaunchArgument(name, default_value=default_value))
 
-    autoware_individual_params_share_dir = get_package_share_directory("autoware_individual_params")
+    individual_params_share_dir = get_package_share_directory("individual_params")
 
     add_launch_arg("base_frame", "base_link")
     add_launch_arg("use_multithread", "False")
@@ -74,7 +74,7 @@ def generate_launch_description():
     add_launch_arg(
         "concatenate_and_time_sync_node_param_path",
         os.path.join(
-            autoware_individual_params_share_dir,
+            individual_params_share_dir,
             "config/default/sample_sensor_kit",
             "concatenate_and_time_sync_node.param.yaml",
         ),
